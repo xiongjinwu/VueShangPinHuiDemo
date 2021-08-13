@@ -7,8 +7,9 @@
           <p>尚品汇欢迎您！</p>
           <p>
             <span>请</span>
-            <a href="###">登录</a>
-            <a href="###" class="register">免费注册</a>
+            <!-- 声明式导航：router-link务必要有to属性 -->
+            <router-link to="/login">登录</router-link>
+            <router-link class="register" to="/register">免费注册</router-link>
           </p>
         </div>
         <div class="typeList">
@@ -26,9 +27,10 @@
     <!--头部第二行 搜索区域-->
     <div class="bottom">
       <h1 class="logoArea">
-        <a class="logo" title="尚品汇" href="###" target="_blank">
+        <!-- router-link组件本省就是一个a标签 -->
+        <router-link to="/home" class="logo">
           <img src="./images/logo.png" alt="" />
-        </a>
+        </router-link>
       </h1>
       <div class="searchArea">
         <form action="###" class="searchForm">
@@ -36,8 +38,9 @@
             type="text"
             id="autocomplete"
             class="input-error input-xxlarge"
+            v-model="keyword"
           />
-          <button class="sui-btn btn-xlarge btn-danger" type="button">
+          <button class="sui-btn btn-xlarge btn-danger" type="button" @click="goSearch">
             搜索
           </button>
         </form>
@@ -49,9 +52,24 @@
 <script>
 export default {
   name: "",
+  data() {
+    return {
+      //响应式数据，用于收集表单元素文本内容
+      keyword:''
+    }
+  },
+  methods: {
+      //搜索按钮的事件处理函数，用于跳转到search路由组件当中
+      goSearch(){
+        //进行路由跳转并且路由传递参数:同时传递params参数与query参数
+        //如果传递params参数,路由需要占位,你不占位是不行的切记（老师温馨提示）
+        //第一种路由传递写法:字符串
+        //params参数属于路径当中一部分
+        this.$router.push("/search/"+this.keyword+"?big="+this.keyword.toUpperCase());
+      }
+  },
 };
 </script>
-
 
 <style scoped lang="less">
 .header {

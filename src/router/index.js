@@ -19,18 +19,23 @@ export default new VueRouter({
     {
       path: "/home",
       component: Home,
+      //路由元信息key不能瞎写：只能叫做meta
+      meta:{isShow:true},
     },
     {
-      path: "/search",
+      path: "/search/:keyword",
       component: Search,
+      meta:{isShow:true}
     },
     {
         path:'/login',
-        component:Login
+        component:Login,
+        meta:{isShow:false}
     },
     {
         path:'/register',
-        component:Register
+        component:Register,
+        meta:{isShow:false}
     },
     // 重定向：本来上来访问的是/根，我就让你去home
     {
@@ -39,3 +44,4 @@ export default new VueRouter({
     }
   ],
 });
+
