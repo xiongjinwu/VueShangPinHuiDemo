@@ -23,9 +23,17 @@ export default new VueRouter({
       meta:{isShow:true},
     },
     {
-      path: "/search/:keyword",
+      //下面这种写法：代表的是params参数可以传递|当然也可以不传递  ?(正则:两次代表出现次数0|1)
+      //今晚在练习的时候，切记?给我带上，因为咱们项目当中params参数就可以传递|不传递也可以
+      path: "/search/:keyword?",
       component: Search,
-      meta:{isShow:true}
+      meta:{isShow:true},
+      // 命名路由
+      name:'search',
+      //路由是可以给组件传递props的
+      //函数的写法才是重要的
+      props:(route)=>({keyword:route.params.keyword,big:route.query.big})
+  
     },
     {
         path:'/login',
