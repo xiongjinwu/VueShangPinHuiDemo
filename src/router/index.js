@@ -13,7 +13,7 @@ import Register from "@/views/Register";
 //先把VueRouter.prototype身上的push|replace方法进行保存一份
 let originPush = VueRouter.prototype.push;
 let originReplace = VueRouter.prototype.replace;
-//重写VueRouter.prototype身上的方法了
+//重写VueRouter.prototype身上的push方法了
 VueRouter.prototype.push = function(location, resolve, reject) {
   //第一个形参：路由跳转的配置对象（query|params）
   //第二个参数：undefined|箭头函数（成功的回调）
@@ -32,7 +32,7 @@ VueRouter.prototype.push = function(location, resolve, reject) {
     );
   }
 };
-//重写replace方法
+//重写VueRouter.prototype身上的replace方法了
 VueRouter.prototype.replace = function(location, resolve, reject) {
   if (resolve && reject) {
     originReplace.call(this, location, resolve, reject);

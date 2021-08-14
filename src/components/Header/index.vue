@@ -84,7 +84,6 @@ export default {
         params: { keyword: this.keyword || undefined },
         query: { big: this.keyword.toUpperCase() },
       });
-      console.log(result);
     },
   },
 };
@@ -185,4 +184,3 @@ export default {
   }
 }
 </style>
-
