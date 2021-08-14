@@ -1,19 +1,16 @@
 小总结:关于同学们经常犯的错误
-
 1)第一类出错误:单词错误------
 比如：注册组件的时候
 componented:{
 
 }
-
 2)第二类错误，配置对象相应的属性值
-
 3)第三类错误
 node_modules 有的时候经常会丢包:报的错误 node_modules/babel/index.js xxxxx
 把 node_modules 删除在重新安装即可
-
 4)第四类错误，书写完模块的内容之后，对外暴露，不对外暴露，别的模块使用不了。
 暴露：分别暴露、默认暴露、统一暴露
+
 
 
 1)在编程式导航当中，点击按钮的时候（多次：传递参数相同），回报警告？
@@ -32,6 +29,7 @@ node_modules 有的时候经常会丢包:报的错误 node_modules/babel/index.j
 
 
 2)今天咱们需要开发home首页组件了?
+
 1:先把我们的静态组件拆分好
 2:拆分为静态组件再去开发动态组件
 
@@ -44,7 +42,13 @@ node_modules 有的时候经常会丢包:报的错误 node_modules/babel/index.j
 
 
 3)axios二次封装
-项目当中发起请求：离不开axios
+1.项目当中发起请求：离不开axios
 前端发起ajax请求：axios、jquery、XMLHttpRequest、fetch
+
+项目服务器地址：http:127.0.0.1:8080
+后台的服务器地址:http://39.98.123.211     
+
+2. 进度条设置
+nprogress这个模块实现进度条
 
 
