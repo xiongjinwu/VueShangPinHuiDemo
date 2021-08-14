@@ -1692,8 +1692,22 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: "typeNav",
+  //发请求经常在mounted生命周期函数中进行
+  //组件挂载完毕
+  mounted() {
+    //派发action
+    this.$store.dispatch("getCategoryList");
+  },
+  //计算属性
+  computed: {
+    //state:他是咱们大仓库中的state（包含home|search）
+    ...mapState({
+       categoryList:(state)=>state.home.categoryList
+    })
+  },
 };
 </script>
 
