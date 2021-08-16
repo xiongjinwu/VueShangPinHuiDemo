@@ -118,16 +118,23 @@ export default {
       //第二个问题解决了：点击的到底是不是a标签（只要这个标签身上带有categoryname）一定是a标签
       //当前这个if语句：一定是a标签才会进入
       if (categoryname) {
+        //准备路由跳转的参数对象
+        let loction = { name: "search" };
+        let query = {categoryName:categoryname};
         //一定是a标签：一级目录
         if (category1id) {
-          console.log("一级目录");
+          query.category1Id = category1id;
           //一定是a标签：二级目录
         } else if (category2id) {
-          console.log("二级目录");
+          query.category2Id = category2id;
           //一定是a标签：三级目录
         } else {
-          console.log("三级目录");
+          query.category3Id = category3id;
         }
+        //动态给location配置对象添加query属性
+        loction.query = query;
+        //路由跳转
+        this.$router.push(loction);
       }
     },
   },

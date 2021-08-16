@@ -47,6 +47,8 @@ key属性值：一般没给我书写为index，因为出现逆序操作时候，
 2) 就算你点击的是a（通过代码能确定了）-----你怎么知道到底是一级目录a还是二级、还是三级
 3）如何把当前一级、二级、三级目录的名字与id传递给search
 
+this.$router.push({name:"search",query:{categoryName:'xxx',category1Id:'222'}})
+
 
 
 
