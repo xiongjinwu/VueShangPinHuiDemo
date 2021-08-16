@@ -7,7 +7,7 @@
           <div class="all-sort-list2">
             <div class="item" v-for="(c1, index) in categoryList" :key="c1.categoryId">
               <h3 :class="{ cur: currentIndex == index }" @mouseenter="changeIndex(index)">
-                <a href="">{{ c1.categoryName }}-{{ index }}</a>
+                <a href="">{{ c1.categoryName }}</a>
               </h3>
               <div class="item-list clearfix" :style="{display:currentIndex==index?'block':'none'}">
                 <div class="subitem">
@@ -50,6 +50,9 @@
 
 <script>
 import { mapState } from "vuex";
+//引入lodash:是把lodash全部封装好的函数全都引入进来了
+//按需引入：只是引入节流函数，其他的函数没有引入（模块），这样做的好处是，当你打包项目的时候体积会小一些
+import throttle from 'lodash/throttle';
 export default {
   name: "typeNav",
   data() {
@@ -73,10 +76,12 @@ export default {
   },
   methods: {
     //用于修改组件实例身上的currentIndex的属性值
-    changeIndex(index) {
-      //修改组件实例身上当前currentIndex这个属性的属性值
-      this.currentIndex = index;
-    },
+    //当用户鼠标移入到h3身上的时候就会立即出发一次
+    changeIndex:throttle(function(index){
+       //修改当前currentIndex索引值
+       //函数节流:在20MS时间之内只能执行一次
+        this.currentIndex = index;
+    },20)
   },
 };
 </script>
