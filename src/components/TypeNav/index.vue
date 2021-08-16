@@ -1,15 +1,29 @@
 <template>
   <div class="type-nav">
     <div class="container">
-      <div @mouseleave="currentIndex=-1">
+      <div @mouseleave="currentIndex = -1">
         <h2 class="all">全部商品分类</h2>
         <div class="sort">
-          <div class="all-sort-list2">
-            <div class="item" v-for="(c1, index) in categoryList" :key="c1.categoryId">
-              <h3 :class="{ cur: currentIndex == index }" @mouseenter="changeIndex(index)">
-                <a href="">{{ c1.categoryName }}</a>
+          <div class="all-sort-list2" @click="goSearch">
+            <div
+              class="item"
+              v-for="(c1, index) in categoryList"
+              :key="c1.categoryId"
+            >
+              <h3
+                :class="{ cur: currentIndex == index }"
+                @mouseenter="changeIndex(index)"
+              >
+                <a
+                  :data-categoryName="c1.categoryName"
+                  :data-category1Id="c1.categoryId"
+                  >{{ c1.categoryName }}</a
+                >
               </h3>
-              <div class="item-list clearfix" :style="{display:currentIndex==index?'block':'none'}">
+              <div
+                class="item-list clearfix"
+                :style="{ display: currentIndex == index ? 'block' : 'none' }"
+              >
                 <div class="subitem">
                   <dl
                     class="fore"
@@ -17,14 +31,22 @@
                     :key="c2.categoryId"
                   >
                     <dt>
-                      <a href="">{{ c2.categoryName }}</a>
+                      <a
+                        :data-categoryName="c2.categoryName"
+                        :data-category2Id="c2.categoryId"
+                        >{{ c2.categoryName }}</a
+                      >
                     </dt>
                     <dd>
                       <em
                         v-for="(c3, index) in c2.categoryChild"
                         :key="c3.categoryId"
                       >
-                        <a href="">{{ c3.categoryName }}</a>
+                        <a
+                          :data-categoryName="c3.categoryName"
+                          :data-category3Id="c3.categoryId"
+                          >{{ c3.categoryName }}</a
+                        >
                       </em>
                     </dd>
                   </dl>
@@ -52,7 +74,7 @@
 import { mapState } from "vuex";
 //引入lodash:是把lodash全部封装好的函数全都引入进来了
 //按需引入：只是引入节流函数，其他的函数没有引入（模块），这样做的好处是，当你打包项目的时候体积会小一些
-import throttle from 'lodash/throttle';
+import throttle from "lodash/throttle";
 export default {
   name: "typeNav",
   data() {
@@ -77,11 +99,37 @@ export default {
   methods: {
     //用于修改组件实例身上的currentIndex的属性值
     //当用户鼠标移入到h3身上的时候就会立即出发一次
-    changeIndex:throttle(function(index){
-       //修改当前currentIndex索引值
-       //函数节流:在20MS时间之内只能执行一次
-        this.currentIndex = index;
-    },20)
+    changeIndex: throttle(function(index) {
+      //修改当前currentIndex索引值
+      //函数节流:在20MS时间之内只能执行一次
+      this.currentIndex = index;
+    }, 20),
+    //进行路由跳转的回调函数
+    goSearch(event) {
+      //event.target:获取到的是出发事件的元素(div、h3、a、em、dt、dl)
+      let node = event.target;
+      //给a标签添加自定义属性data-categoryName,全部的字标签当中只有a标签带有自定义属性，别的标签名字----dataset纯属扯淡
+      let {
+        categoryname,
+        category1id,
+        category2id,
+        category3id,
+      } = node.dataset;
+      //第二个问题解决了：点击的到底是不是a标签（只要这个标签身上带有categoryname）一定是a标签
+      //当前这个if语句：一定是a标签才会进入
+      if (categoryname) {
+        //一定是a标签：一级目录
+        if (category1id) {
+          console.log("一级目录");
+          //一定是a标签：二级目录
+        } else if (category2id) {
+          console.log("二级目录");
+          //一定是a标签：三级目录
+        } else {
+          console.log("三级目录");
+        }
+      }
+    },
   },
 };
 </script>
