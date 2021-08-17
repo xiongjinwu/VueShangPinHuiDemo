@@ -40,11 +40,7 @@
             class="input-error input-xxlarge"
             v-model="keyword"
           />
-          <button
-            class="sui-btn btn-xlarge btn-danger"
-            type="button"
-            @click="goSearch"
-          >
+          <button class="sui-btn btn-xlarge btn-danger" type="button"  @click="goSearch">
             搜索
           </button>
         </form>
@@ -65,28 +61,15 @@ export default {
   methods: {
     //搜索按钮的事件处理函数，用于跳转到search路由组件当中
     goSearch() {
-      //对象写法
-      //经典面试题1：编程式导航进行路由跳转的时候，path写法是否可以结合parmas参数一起使用
-      //答：不可以。path这些写法不能结合params参数一起传递
-
-      //经典面试题2:如何操作params参数可以传递也可以不传递的写法?
-      //答：在路由当中params后面加上一个?,代表的是params参数可以传递，也可以不传递
-
-      //经典面试题3:params参数可以传递|者不传递，但是我就是传递params参数，但是我传递的是一个空字符串？
-      //用undefined解决这类为题
-
-      //经典面试题4：路由能否给组件传递props
-      //能:布尔值、对象、函数
-      //下面这种写法可以解决当前这个抛出异常错误的问题，但是将来我们还是会用到push|replace方法进行路由跳转，还是会出现此类问题，
-      //因此我们需要从"根"解决这个问题，就是咱们自己重写push||replace方法,push|replace方法，是VueRouter.prototype原型对象提供的
-      this.$router.push({
-        name: "search",
-        params: { keyword: this.keyword || undefined },
-        query: { big: this.keyword.toUpperCase() },
-      });
-    },
-  },
-};
+       //代表的是如果有query参数也带过去
+       if(this.$route.query){
+        let loction = {name: "search",params: { keyword: this.keyword || undefined }};
+        loction.query = this.$route.query;
+        this.$router.push(loction);
+       }
+    }
+  }
+}
 </script>
 
 <style scoped lang="less">

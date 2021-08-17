@@ -9,6 +9,8 @@ import store from '@/store';
 import typeNav from "@/components/TypeNav";
 //全局组件：第一个参数 组件名字  第二个参数：那个组件
 Vue.component(typeNav.name, typeNav);
+//引入MockServer.js----mock数据
+import '@/mock/mockServe';
 new Vue({
   render: (h) => h(App),
   //需要把router进行注册
