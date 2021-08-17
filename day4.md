@@ -9,21 +9,28 @@
 1)开发Search模块中的TypeNav商品分类菜单（过渡动画效果）
 过渡动画:前提组件|元素务必要有v-if|v-show指令才可以进行过渡动画
 
+
 2)现在咱们的商品分类三级列表可以进行优化?
 在App根组件当中发请求【根组件mounted】执行一次
 
+
 3)合并params与query参数?
+
 
 
 4)开发Home首页当中的ListContainer组件与Floor组件？
 https://docschina.org/
 但是这里需要知道一件事情：服务器返回的数据（接口）只有商品分类菜单分类数据，对于ListContainer组件与Floor组件数据服务器没有提供的。
 mock数据（模拟）:如果你想mock数据，需要用到一个插件mockjs
-
-使用步骤:
+使用步骤:mockjs使用步骤
 1)在项目当中src文件夹中创建mock文件夹
 2）第二步准备JSON数据（mock文件夹中创建相应的JSON文件）-----格式化一下，别留有空格（跑不起来的）
 3)把mock数据需要的图片放置到public文件夹中【public文件夹在打包的时候，会把相应的资源原封不动打包到dist文件夹
-4)创建mockSerer.js通过mockjs插件实现模拟数据
-5)mockServer.js文件在入口文件中引入（至少需要执行一次，才能模拟数据）
+4)创建mockServe.js通过mockjs插件实现模拟数据
+5)mockServe.js文件在入口文件中引入（至少需要执行一次，才能模拟数据）
+
+
+5）ListContainer组件开发重点？
+安装Swiper插件:最新版本6,安装的是swiper@5
+cnpm install --save swiper@5
 

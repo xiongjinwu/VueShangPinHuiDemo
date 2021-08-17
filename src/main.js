@@ -11,6 +11,8 @@ import typeNav from "@/components/TypeNav";
 Vue.component(typeNav.name, typeNav);
 //引入MockServer.js----mock数据
 import '@/mock/mockServe';
+//引入swiper样式
+import "swiper/css/swiper.css";
 new Vue({
   render: (h) => h(App),
   //需要把router进行注册
