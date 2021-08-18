@@ -4,11 +4,11 @@
     <typeNav />
     <ListContainer />
     <Recommend />
-    <Rank/>
-    <Like/>
-    <Floor/>
-    <Floor/>
-    <Brand/>
+    <Rank />
+    <Like />
+    <!-- Floor这个组件：自己在组件内部是没有发请求的，数据是父组件给的 -->
+    <Floor v-for="(floor,index) in floorList" :key="floor.id" :list="floor"/>
+    <Brand />
   </div>
 </template>
 
@@ -20,6 +20,7 @@ import Rank from "./Rank";
 import Like from "./Like";
 import Brand from "./Brand";
 import Floor from "./Floor";
+import { mapState } from "vuex";
 export default {
   name: "",
   components: {
@@ -29,7 +30,16 @@ export default {
     Like,
     Brand,
     Floor,
-  }
+  },
+  mounted() {
+    //派发action,获取floor组件的数据
+    this.$store.dispatch("getFloorList");
+  },
+  computed: {
+    ...mapState({
+      floorList: (state) => state.home.floorList,
+    }),
+  },
 };
 </script>
 
