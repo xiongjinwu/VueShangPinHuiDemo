@@ -13,15 +13,27 @@
           </ul>
           <ul class="fl sui-tag">
             <!-- 分类的面包屑 -->
-            <li class="with-x" v-if="searchParams.categoryName">{{ searchParams.categoryName}}<i @click="removeCategoryName">×</i>
+            <li class="with-x" v-if="searchParams.categoryName">
+              {{ searchParams.categoryName
+              }}<i @click="removeCategoryName">×</i>
             </li>
             <!-- 关键字的面包屑 -->
-            <li class="with-x" v-if="searchParams.keyword">{{ searchParams.keyword }}<i @click="removeKeyword">×</i></li>
+            <li class="with-x" v-if="searchParams.keyword">
+              {{ searchParams.keyword }}<i @click="removeKeyword">×</i>
+            </li>
             <!-- 品牌的面包屑 -->
-            <li class="with-x" v-if="searchParams.trademark">{{ searchParams.trademark.split(":")[1]}}<i @click="removeTradeMark">×</i>
+            <li class="with-x" v-if="searchParams.trademark">
+              {{ searchParams.trademark.split(":")[1]
+              }}<i @click="removeTradeMark">×</i>
             </li>
             <!--平台的售卖的属性值展示 -->
-            <li class="with-x" v-for="(attrValue,index) in searchParams.props" :key="index">{{attrValue.split(":")[1]}}<i @click="removeAttr(index)">×</i></li>
+            <li
+              class="with-x"
+              v-for="(attrValue, index) in searchParams.props"
+              :key="index"
+            >
+              {{ attrValue.split(":")[1] }}<i @click="removeAttr(index)">×</i>
+            </li>
           </ul>
         </div>
         <!--selector-->
@@ -30,25 +42,25 @@
         <div class="details clearfix">
           <div class="sui-navbar">
             <div class="navbar-inner filter">
-              <!-- 价格结构 -->
+              <!-- 排序的解构 -->
               <ul class="sui-nav">
-                <li class="active">
-                  <a href="#">综合</a>
+                <li :class="{ active: isOne }" @click="changeOrder('1')">
+                  <a
+                    >综合<span
+                      v-show="isOne"
+                      class="iconfont"
+                      :class="{ 'icon-UP': isAsc, 'icon-DOWN': isDesc }"
+                    ></span
+                  ></a>
                 </li>
-                <li>
-                  <a href="#">销量</a>
-                </li>
-                <li>
-                  <a href="#">新品</a>
-                </li>
-                <li>
-                  <a href="#">评价</a>
-                </li>
-                <li>
-                  <a href="#">价格⬆</a>
-                </li>
-                <li>
-                  <a href="#">价格⬇</a>
+                <li :class="{ active: isTwo }" @click="changeOrder('2')">
+                  <a
+                    >价格<span
+                      v-show="isTwo"
+                      class="iconfont"
+                      :class="{ 'icon-UP': isAsc, 'icon-DOWN': isDesc }"
+                    ></span
+                  ></a>
                 </li>
               </ul>
             </div>
@@ -151,8 +163,8 @@ export default {
         categoryName: "",
         //搜索的关键字
         keyword: "",
-        //排序
-        order: "",
+        //排序:初始状态应该是综合且降序
+        order: "1:desc",
         //第几页
         pageNo: 1,
         //每一页展示条数
@@ -228,26 +240,60 @@ export default {
     //收集平台属性地方回调函数（自定义事件）
     attrInfo(attr, attrValue) {
       //["属性ID:属性值:属性名"]
-      console.log(attr,attrValue);
+      console.log(attr, attrValue);
       //参数格式整理好
       let props = `${attr.attrId}:${attrValue}:${attr.attrName}`;
       //数组去重
       //if语句里面只有一行代码：可以省略大花括号
-      if(this.searchParams.props.indexOf(props)==-1) this.searchParams.props.push(props);
+      if (this.searchParams.props.indexOf(props) == -1)
+        this.searchParams.props.push(props);
       //再次发请求
       this.getData();
     },
     //removeAttr删除售卖的属性
-    removeAttr(index){
+    removeAttr(index) {
       //再次整理参数
-      this.searchParams.props.splice(index,1);
+      this.searchParams.props.splice(index, 1);
       //再次发请求
       this.getData();
-    }
+    },
+    //排序的操作
+    changeOrder(flag) {
+      //flag形参：它是一个标记，代表用户点击的是综合（1）价格（2）[用户点击的时候传递进来的]
+      let originOrder = this.searchParams.order;
+      //这里获取到的是最开始的状态
+      let originFlag = this.searchParams.order.split(":")[0];
+      let orginSort = this.searchParams.order.split(":")[1];
+      //准备一个新的order属性值
+      let newOrder = "";
+      //点击的是综合
+      if (flag == originFlag) {
+        newOrder = `${originFlag}:${orginSort == "desc" ? "asc" : "desc"}`;
+      } else {
+        //点击的是价格
+        newOrder = `${flag}:${"desc"}`;
+      }
+      //将新的order赋予searchParams
+      this.searchParams.order = newOrder;
+      //再次发请求
+      this.getData();
+    },
   },
   computed: {
     //mapGetters里面的写法：传递的数组，因为getters计算是没有划分模块【home,search】
     ...mapGetters(["goodsList"]),
+    isOne() {
+      return this.searchParams.order.indexOf("1") != -1;
+    },
+    isTwo() {
+      return this.searchParams.order.indexOf("2") != -1;
+    },
+    isAsc() {
+      return this.searchParams.order.indexOf("asc") != -1;
+    },
+    isDesc() {
+      return this.searchParams.order.indexOf("desc") != -1;
+    },
   },
   //数据监听：监听组件实例身上的属性的属性值变化
   watch: {
