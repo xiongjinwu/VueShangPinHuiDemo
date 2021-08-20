@@ -163,8 +163,8 @@ export default {
   },
   //在挂载之前调用一次|可以在发请求之前将带有参数进行修改
   beforeMount() {
-    //Object.assign:合并对象
-    Object.assign(this.searchParams,this.$route.query,this.$route.params);
+    //在发请求之前，把接口需要传递参数，进行整理（在给服务器发请求之前，把参数整理好，服务器就会返回查询的数据）
+    Object.assign(this.searchParams, this.$route.query, this.$route.params);
   },
   mounted() {
     //在发请求之前咱们需要将searchParams里面参数进行修改带给服务器
@@ -180,6 +180,21 @@ export default {
   computed: {
     //mapGetters里面的写法：传递的数组，因为getters计算是没有划分模块【home,search】
     ...mapGetters(["goodsList"]),
+  },
+  //数据监听：监听组件实例身上的属性的属性值变化
+  watch: {
+    //监听路由的信息是否发生变化，如果发生变化，再次发起请求
+    $route(newValue, oldValue) {
+      //每一次请求完毕，应该把相应的1、2、3级分类的id置空的，让他接受下一次的相应1、2、3
+      //再次发请求之前整理带给服务器参数
+      Object.assign(this.searchParams, this.$route.query, this.$route.params);
+      //再次发起ajax请求
+      this.getData();
+      //分类名字与关键字不用清理：因为每一次路由发生变化的时候，都会给他赋予新的数据
+      this.searchParams.category1Id = "";
+      this.searchParams.category2Id = "";
+      this.searchParams.category3Id = "";
+    },
   },
 };
 </script>
