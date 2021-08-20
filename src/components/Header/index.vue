@@ -40,7 +40,11 @@
             class="input-error input-xxlarge"
             v-model="keyword"
           />
-          <button class="sui-btn btn-xlarge btn-danger" type="button"  @click="goSearch">
+          <button
+            class="sui-btn btn-xlarge btn-danger"
+            type="button"
+            @click="goSearch"
+          >
             搜索
           </button>
         </form>
@@ -61,15 +65,24 @@ export default {
   methods: {
     //搜索按钮的事件处理函数，用于跳转到search路由组件当中
     goSearch() {
-       //代表的是如果有query参数也带过去
-       if(this.$route.query){
-        let loction = {name: "search",params: { keyword: this.keyword || undefined }};
+      //代表的是如果有query参数也带过去
+      if (this.$route.query) {
+        let loction = {
+          name: "search",
+          params: { keyword: this.keyword || undefined },
+        };
         loction.query = this.$route.query;
         this.$router.push(loction);
-       }
-    }
-  }
-}
+      }
+    },
+  },
+  mounted() {
+    //通过全局事件总线清除关键字
+    this.$bus.$on("clear", () => {
+      this.keyword = "";
+    });
+  },
+};
 </script>
 
 <style scoped lang="less">
