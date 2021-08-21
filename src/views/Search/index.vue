@@ -111,8 +111,8 @@
               </li>
             </ul>
           </div>
-          <!-- 分页器 -->
-          <Pagination />
+          <!-- 分页器:测试分页器阶段，这里数据将来需要替换的-->
+          <Pagination  :pageNo="31"  :pageSize="3" :total="91" :continues="5"/>
         </div>
       </div>
     </div>
@@ -231,20 +231,21 @@ export default {
     },
     //排序的操作
     changeOrder(flag) {
-      //flag形参：它是一个标记，代表用户点击的是综合（1）价格（2）[用户点击的时候传递进来的]
-      //这里获取到的是最开始的状态
-      let originFlag = this.searchParams.order.split(":")[0];
-      let orginSort = this.searchParams.order.split(":")[1];
-      //准备一个新的order属性值
-      let newOrder = "";
-      //点击的是综合
-      if (flag == originFlag) {
-        newOrder = `${originFlag}:${orginSort == "desc" ? "asc" : "desc"}`;
-      } else {
-        //点击的是价格
-        newOrder = `${flag}:${"desc"}`;
+      //flag:用户每一次点击li标签的时候，用于区分是综合（1）还是价格（2）
+      //现获取order初始状态【咱们需要通过初始状态去判断接下来做什么】
+      let originOrder = this.searchParams.order;
+      let orginsFlag = originOrder.split(':')[0];
+      let originSort = originOrder.split(':')[1];
+      //新的排序方式
+      let newOrder = '';
+      //判断的是多次点击的是不是同一个按钮
+      if(flag ==orginsFlag){
+         newOrder = `${orginsFlag}:${originSort=='desc'?"asc":'desc'}`;
+      }else{
+        //点击不是同一个按钮
+        newOrder = `${flag}:${'desc'}`;
       }
-      //将新的order赋予searchParams
+      //需要给order重新赋值
       this.searchParams.order = newOrder;
       //再次发请求
       this.getData();
