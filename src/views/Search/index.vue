@@ -68,16 +68,13 @@
           <!-- 销售产品列表 -->
           <div class="goods-list">
             <ul class="yui3-g">
-              <li
-                class="yui3-u-1-5"
-                v-for="(good, index) in goodsList"
-                :key="good.id"
-              >
+              <li class="yui3-u-1-5" v-for="(good, index) in goodsList" :key="good.id">
                 <div class="list-wrap">
                   <div class="p-img">
-                    <a href="item.html" target="_blank">
-                      <img :src="good.defaultImg" />
-                    </a>
+                    <!-- 在路由跳转的时候切记别忘记带id（params）参数 -->
+                    <router-link :to="`/detail/${good.id}`">
+                         <img :src="good.defaultImg" />
+                    </router-link>
                   </div>
                   <div class="price">
                     <strong>
@@ -138,7 +135,7 @@ export default {
         //排序:初始状态应该是综合且降序
         order: "1:desc",
         //第几页
-        pageNo: 2,
+        pageNo: 1,
         //每一页展示条数
         pageSize: 3,
         //平台属性的操作

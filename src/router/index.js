@@ -2,13 +2,9 @@
 import VueRouter from "vue-router";
 //引入Vue
 import Vue from "vue";
+import routes from "./routes";
 //使用插件
 Vue.use(VueRouter);
-//引入一级路由组件
-import Home from "@/views/Home";
-import Search from "@/views/Search";
-import Login from "@/views/Login";
-import Register from "@/views/Register";
 //需要重写VueRouter.prototype原型对象身上的push|replace方法
 //先把VueRouter.prototype身上的push|replace方法进行保存一份
 let originPush = VueRouter.prototype.push;
@@ -51,42 +47,10 @@ export default new VueRouter({
   //第一:路径的前面需要有/(不是二级路由)
   //路径中单词都是小写的
   //component右侧V别给我加单引号【字符串：组件是对象（VueComponent类的实例）】
-  routes: [
-    {
-      path: "/home",
-      component: Home,
-      //路由元信息key不能瞎写：只能叫做meta
-      meta: { isShow: true },
-    },
-    {
-      //下面这种写法：代表的是params参数可以传递|当然也可以不传递  ?(正则:两次代表出现次数0|1)
-      //今晚在练习的时候，切记?给我带上，因为咱们项目当中params参数就可以传递|不传递也可以
-      path: "/search/:keyword?",
-      component: Search,
-      meta: { isShow: true },
-      // 命名路由
-      name: "search",
-      //路由是可以给组件传递props的
-      //函数的写法才是重要的
-      props: (route) => ({
-        keyword: route.params.keyword,
-        big: route.query.big,
-      }),
-    },
-    {
-      path: "/login",
-      component: Login,
-      meta: { isShow: false },
-    },
-    {
-      path: "/register",
-      component: Register,
-      meta: { isShow: false },
-    },
-    // 重定向：本来上来访问的是/根，我就让你去home
-    {
-      path: "/",
-      redirect: "/home",
-    },
-  ],
+  routes,
+  //滚动行为
+  scrollBehavior(to, from, savedPosition) {
+    //返回的这个y=0，代表的滚动条在最上方
+    return { y:0};
+  },
 });
