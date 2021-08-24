@@ -108,6 +108,7 @@
               </li>
             </ul>
           </div>
+            <!-- <Pagination  :pageNo="31"  :pageSize="3" :total="99" :continues="5" @getPageNo="getPageNo"/> -->
           <!-- 分页器:测试分页器阶段，这里数据将来需要替换的-->
           <Pagination  :pageNo="searchParams.pageNo"  :pageSize="searchParams.pageSize" :total="total" :continues="5" @getPageNo="getPageNo"/>
         </div>
