@@ -380,7 +380,7 @@ export default {
       arr.forEach(item=>{
         item.isChecked = 0;
       });
-      //点击的那个售卖属性值
+      //点击的那个售卖属性值变为1
       saleAttrValue.isChecked = 1;
     },
   },
