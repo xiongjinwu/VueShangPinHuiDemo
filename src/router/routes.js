@@ -4,8 +4,15 @@ import Search from "@/views/Search";
 import Login from "@/views/Login";
 import Register from "@/views/Register";
 import Detail from "@/views/Detail";
+import AddCartSuccess from '@/views/AddCartSuccess'
 //路由配置信息
 export default [
+  {
+    path: "/addcartsuccess",
+    name:'addcartsuccess',
+    component:AddCartSuccess,
+    meta: { isShow: true },
+  },
   {
     path: "/detail/:skuid",
     component: Detail,
