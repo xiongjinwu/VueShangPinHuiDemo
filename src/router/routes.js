@@ -4,9 +4,15 @@ import Search from "@/views/Search";
 import Login from "@/views/Login";
 import Register from "@/views/Register";
 import Detail from "@/views/Detail";
-import AddCartSuccess from '@/views/AddCartSuccess'
+import AddCartSuccess from '@/views/AddCartSuccess';
+import ShopCart from '@/views/ShopCart';
 //路由配置信息
 export default [
+  {
+    path: "/shopcart",
+    component:ShopCart,
+    meta: { isShow: true },
+  },
   {
     path: "/addcartsuccess",
     name:'addcartsuccess',
