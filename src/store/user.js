@@ -1,12 +1,16 @@
-import { reqGetCode, reqUserRegister } from "@/api";
+import { reqGetCode, reqUserRegister, reqUserLogin } from "@/api";
 //登录与注册的模块
 const state = {
   code: "",
+  token:''
 };
 const mutations = {
   GETCODE(state, code) {
     state.code = code;
   },
+  USERLOGIN(state,token){
+    state.token = token;
+  }
 };
 const actions = {
   //获取验证码
@@ -23,10 +27,22 @@ const actions = {
   //用户注册
   async userRegister({ commit }, user) {
     let result = await reqUserRegister(user);
-    if(result.code==200){
-      return 'ok';
-    }else{
-      return Promise.reject(new Error('faile'));
+    if (result.code == 200) {
+      return "ok";
+    } else {
+      return Promise.reject(new Error("faile"));
+    }
+  },
+  //登录业务
+  async userLogin({ commit }, data) {
+    let result = await reqUserLogin(data);
+    //服务器下发token，用户唯一标识符(uuid)
+    //将来经常通过带token找服务器要用户信息进行展示
+    if (result.code == 200) {
+      commit("USERLOGIN", result.data.token);
+      return "ok";
+    } else {
+      return Promise.reject(new Error("faile"));
     }
   },
 };
