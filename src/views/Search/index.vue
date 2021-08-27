@@ -68,12 +68,16 @@
           <!-- 销售产品列表 -->
           <div class="goods-list">
             <ul class="yui3-g">
-              <li class="yui3-u-1-5" v-for="(good, index) in goodsList" :key="good.id">
+              <li
+                class="yui3-u-1-5"
+                v-for="(good, index) in goodsList"
+                :key="good.id"
+              >
                 <div class="list-wrap">
                   <div class="p-img">
                     <!-- 在路由跳转的时候切记别忘记带id（params）参数 -->
                     <router-link :to="`/detail/${good.id}`">
-                         <img :src="good.defaultImg" />
+                      <img :src="good.defaultImg" />
                     </router-link>
                   </div>
                   <div class="price">
@@ -108,9 +112,15 @@
               </li>
             </ul>
           </div>
-            <!-- <Pagination  :pageNo="31"  :pageSize="3" :total="99" :continues="5" @getPageNo="getPageNo"/> -->
+          <!-- <Pagination  :pageNo="31"  :pageSize="3" :total="99" :continues="5" @getPageNo="getPageNo"/> -->
           <!-- 分页器:测试分页器阶段，这里数据将来需要替换的-->
-          <Pagination  :pageNo="searchParams.pageNo"  :pageSize="searchParams.pageSize" :total="total" :continues="5" @getPageNo="getPageNo"/>
+          <Pagination
+            :pageNo="searchParams.pageNo"
+            :pageSize="searchParams.pageSize"
+            :total="total"
+            :continues="5"
+            @getPageNo="getPageNo"
+          />
         </div>
       </div>
     </div>
@@ -119,7 +129,7 @@
 
 <script>
 import SearchSelector from "./SearchSelector/SearchSelector";
-import { mapGetters,mapState} from "vuex";
+import { mapGetters, mapState } from "vuex";
 export default {
   name: "Search",
   data() {
@@ -232,16 +242,16 @@ export default {
       //flag:用户每一次点击li标签的时候，用于区分是综合（1）还是价格（2）
       //现获取order初始状态【咱们需要通过初始状态去判断接下来做什么】
       let originOrder = this.searchParams.order;
-      let orginsFlag = originOrder.split(':')[0];
-      let originSort = originOrder.split(':')[1];
+      let orginsFlag = originOrder.split(":")[0];
+      let originSort = originOrder.split(":")[1];
       //新的排序方式
-      let newOrder = '';
+      let newOrder = "";
       //判断的是多次点击的是不是同一个按钮
-      if(flag ==orginsFlag){
-         newOrder = `${orginsFlag}:${originSort=='desc'?"asc":'desc'}`;
-      }else{
+      if (flag == orginsFlag) {
+        newOrder = `${orginsFlag}:${originSort == "desc" ? "asc" : "desc"}`;
+      } else {
         //点击不是同一个按钮
-        newOrder = `${flag}:${'desc'}`;
+        newOrder = `${flag}:${"desc"}`;
       }
       //需要给order重新赋值
       this.searchParams.order = newOrder;
@@ -249,12 +259,12 @@ export default {
       this.getData();
     },
     //自定义事件的回调函数---获取当前第几页
-    getPageNo(pageNo){
-     //整理带给服务器参数
-     this.searchParams.pageNo = pageNo;
-     //再次发请求
-     this.getData();
-    }
+    getPageNo(pageNo) {
+      //整理带给服务器参数
+      this.searchParams.pageNo = pageNo;
+      //再次发请求
+      this.getData();
+    },
   },
   computed: {
     //mapGetters里面的写法：传递的数组，因为getters计算是没有划分模块【home,search】
@@ -273,8 +283,8 @@ export default {
     },
     //获取search模块展示产品一共多少数据
     ...mapState({
-        total:state=>state.search.searchList.total
-    })
+      total: (state) => state.search.searchList.total,
+    }),
   },
   //数据监听：监听组件实例身上的属性的属性值变化
   watch: {
