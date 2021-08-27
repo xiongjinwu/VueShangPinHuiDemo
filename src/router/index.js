@@ -7,7 +7,6 @@ import routes from "./routes";
 Vue.use(VueRouter);
 //引入store
 import store from "@/store";
-import user from "@/store/user";
 //需要重写VueRouter.prototype原型对象身上的push|replace方法
 //先把VueRouter.prototype身上的push|replace方法进行保存一份
 let originPush = VueRouter.prototype.push;
@@ -60,47 +59,41 @@ let router = new VueRouter({
 
 //全局守卫：前置守卫（在路由跳转之间进行判断）
 router.beforeEach(async (to, from, next) => {
-  //to:可以获取到你要跳转到那个路由信息
-  //from:可以获取到你从哪个路由而来的信息
-  //next:放行函数  next()放行  next(path)放行到指令路由                next(false);
-  //为了测试先全都放行
-  // next();
-  //用户登录了,才会有token,未登录一定不会有token
-  let token = store.state.user.token;
-  //用户信息
-  let name = store.state.user.userInfo.name;
-  // console.log(userInfo);
-  //为了测试全都放行
-  //用户已经登陆了
-  if (token) {
-    //用户已经登陆了还想去login[不能去，停留在首页]
-    if(to.path=='/login'){
-        next('/home')
-    }else{
-      //登陆,去的不是login【home|search|detail|shopcart】
-      //如果用户名已有
-      if(name){
-        next();
-      }else{
-        //没有用户信息，派发action让仓库存储用户信息在跳转
+   //to:获取到要跳转到的路由信息
+   //from：获取到从哪个路由跳转过来来的信息
+   //next: next() 放行  next(path) 放行  
+   //方便测试 统一放行
+  //  next();
+  //获取仓库中的token-----可以确定用户是登录了
+   let token  = store.state.user.token;
+   let name = store.state.user.userInfo.name;
+   //用户登录了
+   if(token){
+     //已经登录而且还想去登录------不行
+     if(to.path=="/login"||to.path=='/register'){
+        next('/');
+     }else{
+       //已经登陆了,访问的是非登录与注册
+       //登录了且拥有用户信息放行
+       if(name){
+         next();
+       }else{
+         //登陆了且没有用户信息
+         //在路由跳转之前获取用户信息且放行
          try {
-           //获取用户信息成功
           await store.dispatch('getUserInfo');
-          //放行
           next();
          } catch (error) {
-            //token失效了获取不到用户信息，从新登录
-            //清除token
-            await store.dispatch('userLogout');
-            next('/login');
+           //token失效从新登录
+           await store.dispatch('userLogout');
+           next('/login')
          }
-      }
-    }
-  } else {
-     //未登录暂时没有处理完毕，先这个样子后期在处理
+       }
+     }
+   }else{
+     //用户未登录暂时全部放行，将来回首在处理
      next();
-     console.log(4444);
-  }
+   }
 });
 
 export default router;

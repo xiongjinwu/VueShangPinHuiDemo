@@ -6,8 +6,14 @@ import Register from "@/views/Register";
 import Detail from "@/views/Detail";
 import AddCartSuccess from '@/views/AddCartSuccess';
 import ShopCart from '@/views/ShopCart';
+import Trade from '@/views/Trade';
 //路由配置信息
 export default [
+  {
+    path: "/trade",
+    component:Trade,
+    meta: { isShow: true },
+  },
   {
     path: "/shopcart",
     component:ShopCart,
