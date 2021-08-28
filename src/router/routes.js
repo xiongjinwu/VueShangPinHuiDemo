@@ -7,8 +7,14 @@ import Detail from "@/views/Detail";
 import AddCartSuccess from '@/views/AddCartSuccess';
 import ShopCart from '@/views/ShopCart';
 import Trade from '@/views/Trade';
+import Pay from '@/views/Pay';
 //路由配置信息
 export default [
+  {
+    path: "/pay",
+    component:Pay,
+    meta: { isShow: true },
+  },
   {
     path: "/trade",
     component:Trade,
