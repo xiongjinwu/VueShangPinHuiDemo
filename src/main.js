@@ -9,15 +9,20 @@ import store from "@/store";
 import typeNav from "@/components/TypeNav";
 import Carsousel from "@/components/Carousel";
 import Pagination from '@/components/Pagination'
+import { Button,MessageBox} from 'element-ui';
 //全局组件：第一个参数 组件名字  第二个参数：那个组件
 Vue.component(typeNav.name, typeNav);
 Vue.component(Carsousel.name, Carsousel);
 Vue.component(Pagination.name,Pagination);
+//注册全局组件
+Vue.component(Button.name,Button);
+//ElementUI注册组件的时候，还有一种写法，挂在原型上
+Vue.prototype.$msgbox = MessageBox;
+Vue.prototype.$alert = MessageBox.alert;
 //引入MockServer.js----mock数据
 import "@/mock/mockServe";
 //引入swiper样式
 import "swiper/css/swiper.css";
-
 //统一接口api文件夹里面全部请求函数
 //统一引入
 import * as API from '@/api';

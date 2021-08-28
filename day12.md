@@ -11,33 +11,20 @@
 2.3从今天开始项目，老师就不在碰vuex
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 3)获取支付信息（不在使用vuex）
-
+3.1别再生命周期函数中async
+3.2获取支付信息
 
 
 4）elementUI使用 + 按需引入
+
+已经学习过组件库:
+React（Vue）:antd[PC] antd-mobile【移动端】
+Vue:ElementUI[PC]   vant[移动端的]
+
+4.1elementUI按需引入，配置文件发生变化，项目需要重启的
+
+
 
 
 
