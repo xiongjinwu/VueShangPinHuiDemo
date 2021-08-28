@@ -4,37 +4,61 @@ import Search from "@/views/Search";
 import Login from "@/views/Login";
 import Register from "@/views/Register";
 import Detail from "@/views/Detail";
-import AddCartSuccess from '@/views/AddCartSuccess';
-import ShopCart from '@/views/ShopCart';
-import Trade from '@/views/Trade';
-import Pay from '@/views/Pay';
-import PaySuccess from '@/views/PaySuccess';
+import AddCartSuccess from "@/views/AddCartSuccess";
+import ShopCart from "@/views/ShopCart";
+import Trade from "@/views/Trade";
+import Pay from "@/views/Pay";
+import PaySuccess from "@/views/PaySuccess";
+import Center from "@/views/Center";
+//引入二级路由组件
+import MyOrder from "@/views/Center/myOrder";
+import GroupOrder from "@/views/Center/groupOrder";
 //路由配置信息
 export default [
   {
+    path: "/center",
+    component: Center,
+    meta: { isShow: true },
+    //二级路由组件
+    children: [
+      {
+        path: "myorder",
+        component: MyOrder,
+      },
+      {
+        path:'grouporder',
+        component:GroupOrder
+      },
+      {
+        path:'/center',
+        redirect:'/center/myorder'
+      }
+    ],
+  },
+  {
     path: "/paysuccess",
-    component:PaySuccess,
+    component: PaySuccess,
     meta: { isShow: true },
   },
   {
     path: "/pay",
-    component:Pay,
+    component: Pay,
     meta: { isShow: true },
   },
   {
     path: "/trade",
-    component:Trade,
+    component: Trade,
     meta: { isShow: true },
   },
   {
     path: "/shopcart",
-    component:ShopCart,
+    component: ShopCart,
     meta: { isShow: true },
   },
   {
     path: "/addcartsuccess",
-    name:'addcartsuccess',
-    component:AddCartSuccess,
+    name: "addcartsuccess",
+    component: AddCartSuccess,
     meta: { isShow: true },
   },
   {
