@@ -26,13 +26,13 @@ export default [
         component: MyOrder,
       },
       {
-        path:'grouporder',
-        component:GroupOrder
+        path: "grouporder",
+        component: GroupOrder,
       },
       {
-        path:'/center',
-        redirect:'/center/myorder'
-      }
+        path: "/center",
+        redirect: "/center/myorder",
+      },
     ],
   },
   {
@@ -44,11 +44,28 @@ export default [
     path: "/pay",
     component: Pay,
     meta: { isShow: true },
+    beforeEnter: (to, from, next) => {
+      if (from.path == "/trade") {
+        next();
+      } else {
+        next(false);
+      }
+    },
   },
   {
     path: "/trade",
     component: Trade,
     meta: { isShow: true },
+    //路由独享守卫
+    beforeEnter: (to, from, next) => {
+      //去交易页面，必须是从购物车而来
+      if (from.path == "/shopcart") {
+        next();
+      } else {
+        //其他的路由组件而来，停留在当前
+        next(false);
+      }
+    },
   },
   {
     path: "/shopcart",
