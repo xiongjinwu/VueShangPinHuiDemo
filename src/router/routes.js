@@ -1,6 +1,5 @@
 //引入一级路由组件
-import Home from "@/views/Home";
-import Search from "@/views/Search";
+
 import Login from "@/views/Login";
 import Register from "@/views/Register";
 import Detail from "@/views/Detail";
@@ -13,6 +12,10 @@ import Center from "@/views/Center";
 //引入二级路由组件
 import MyOrder from "@/views/Center/myOrder";
 import GroupOrder from "@/views/Center/groupOrder";
+/*
+当打包构建应用时，JavaScript 包会变得非常大，影响页面加载。
+如果我们能把不同路由对应的组件分割成不同的代码块，然后当路由被访问的时候才加载对应组件，这样就更加高效了。
+*/
 //路由配置信息
 export default [
   {
@@ -86,7 +89,7 @@ export default [
   ,
   {
     path: "/home",
-    component: Home,
+    component:()=>import("@/views/Home"),
     //路由元信息key不能瞎写：只能叫做meta
     meta: { isShow: true },
   },
@@ -94,7 +97,11 @@ export default [
     //下面这种写法：代表的是params参数可以传递|当然也可以不传递  ?(正则:两次代表出现次数0|1)
     //今晚在练习的时候，切记?给我带上，因为咱们项目当中params参数就可以传递|不传递也可以
     path: "/search/:keyword?",
-    component: Search,
+    component:()=>{
+        console.log(111111);
+      return  import('@/views/Search');
+    }
+    ,
     meta: { isShow: true },
     // 命名路由
     name: "search",
