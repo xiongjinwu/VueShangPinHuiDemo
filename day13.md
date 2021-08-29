@@ -120,25 +120,58 @@ linux常用指令: cd 跳转目录   ls 查看     mkdir创建目录  pwd：查�
 6.4xshell 链接服务器与与 linux 指令
 cd /【根目录】 mkdir 创建文件 ls 查看 pwd 绝对路径
 
+
+
+
 6.5nginx 反向代理
+
 yum install nginx [etc]
 
 
-location / {
-                	root    /root/ly/www/gulishop-client/dist;
-                	index  index.html;
-                	try_files $uri $uri/ /index.html;
-}
-
 
 location /api {
-                 	proxy_pass http://182.92.128.115;
-        	}
+  proxy_pass http://182.92.128.115;
+}
 	
-
 service nginx start
 service nginx restart
 service nginx stop
 
 
-yum remove nginx 
+
+
+
+6.6nginx？
+1:为什么访问服务器IP地址就可以访问到咱们项目？ ----配置一些东西
+http://82.156.11.187/
+刚刚在服务器上=>/root/jch/www/shangpinhui/dist
+
+
+2:项目的数据来自于http://39.98.123.211
+
+
+
+nginx配置:
+
+1:xshell进入根目录/etc
+
+2:进入etc目录，这个目录下有一个nginx目录，进入到这个目录【已经安装过nginx：如果没有安装过，四五个文件】
+
+3：如果想安装nginx:yum install nginx 
+
+4:安装完nginx服务器以后，你会发现在nginx目录下，多了一个nginx.conf文件，在这个文件中进行配置
+
+5：vim nginx.conf进行编辑，主要添加如下两项
+解决第一个问题:
+location / {
+  	root    /root/jch/www/shangpinhui/dist;
+    index  index.html;
+    try_files $uri $uri/ /index.html;
+}
+//解决第二个问题
+location /api {
+  proxy_pass http://39.98.123.211;
+}
+
+6:nginx服务器跑起来
+service nginx start
