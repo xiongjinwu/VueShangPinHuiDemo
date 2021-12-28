@@ -18,6 +18,7 @@
                 <a class="register" @click="logout">退出登录</a>
           </p>
         </div>
+        
         <div class="typeList">
           <router-link to="/center/myorder">我的订单</router-link>
           <router-link to="/shopcart">我的购物车</router-link>
@@ -64,20 +65,20 @@ export default {
   name: "",
   data() {
     return {
-      //响应式数据，用于收集表单元素文本内容
+      //用于收集表单元素关键字 文本内容
       keyword: "",
     };
   },
   methods: {
     //搜索按钮的事件处理函数，用于跳转到search路由组件当中
     goSearch() {
-      //代表的是如果有query参数也带过去
-      if (this.$route.query) {
+      if (this.$route.query) {    //代表的是如果有query参数也带过去
         let loction = {
           name: "search",
           params: { keyword: this.keyword || undefined },
         };
         loction.query = this.$route.query;
+        
         this.$router.push(loction);
       }
     },
@@ -97,8 +98,7 @@ export default {
     }
   },
   mounted() {
-    //通过全局事件总线清除关键字
-    this.$bus.$on("clear", () => {
+    this.$bus.$on("clear", () => { //通过全局事件总线清除关键字
       this.keyword = "";
     });
   },

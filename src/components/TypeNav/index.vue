@@ -1,6 +1,7 @@
 <template>
   <div class="type-nav">
     <div class="container">
+
       <div @mouseleave="leaveShow" @mouseenter="enterShow">
         <h2 class="all">全部商品分类</h2>
         <!-- 过渡动画 -->
@@ -14,7 +15,7 @@
               >
                 <h3
                   :class="{ cur: currentIndex == index }"
-                  @mouseenter="changeIndex(index)"
+                   @mouseenter="changeIndex(index)"
                 >
                   <a
                     :data-categoryName="c1.categoryName"
@@ -29,7 +30,7 @@
                   <div class="subitem">
                     <dl
                       class="fore"
-                      v-for="(c2, index) in c1.categoryChild"
+                      v-for="(c2) in c1.categoryChild"
                       :key="c2.categoryId"
                     >
                       <dt>
@@ -41,7 +42,7 @@
                       </dt>
                       <dd>
                         <em
-                          v-for="(c3, index) in c2.categoryChild"
+                          v-for="(c3) in c2.categoryChild"
                           :key="c3.categoryId"
                         >
                           <a
@@ -59,6 +60,7 @@
           </div>
         </transition>
       </div>
+
       <nav class="nav">
         <a href="###">服装城</a>
         <a href="###">美妆馆</a>
@@ -82,12 +84,12 @@ export default {
   name: "typeNav",
   data() {
     return {
-      //当前这个属性决定了到底那个h3身上有类名
-      currentIndex: -1,
-      show: true,
+      
+      currentIndex: -1,  //当前这个属性决定了到底那个h3身上有类名
+      show: true,  //让全局组件typeNav默认显示的一个状态
     };
   },
-  //发请求经常在mounted生命周期函数中进行
+  //发请求经常在mounted生命周期函数中进行，首页home数据做了优化请求放到根组件App中
   //组件挂载完毕
   mounted() {
     //当组件挂载完毕，让show属性变为false
@@ -100,7 +102,7 @@ export default {
   computed: {
     //state:他是咱们大仓库中的state（包含home|search）
     ...mapState({
-      categoryList: (state) => state.home.categoryList,
+      categoryList: (state) => state.home.categoryList
     }),
   },
   methods: {
@@ -113,15 +115,10 @@ export default {
     }, 20),
     //进行路由跳转的回调函数
     goSearch(event) {
-      //event.target:获取到的是出发事件的元素(div、h3、a、em、dt、dl)
+      //event.target:获取到的是触发事件的元素(div、h3、a、em、dt、dl)
       let node = event.target;
       //给a标签添加自定义属性data-categoryName,全部的字标签当中只有a标签带有自定义属性，别的标签名字----dataset纯属扯淡
-      let {
-        categoryname,
-        category1id,
-        category2id,
-        category3id,
-      } = node.dataset;
+      let { categoryname, category1id, category2id, category3id,} = node.dataset;
       //第二个问题解决了：点击的到底是不是a标签（只要这个标签身上带有categoryname）一定是a标签
       //当前这个if语句：一定是a标签才会进入
       if (categoryname) {
@@ -139,11 +136,9 @@ export default {
           query.category3Id = category3id;
         }
         //判断：如果路由跳转的时候，带有params参数，捎带脚传递过去
-        if (this.$route.params) {
-          loction.params = this.$route.params;
-          //动态给location配置对象添加query属性
-          loction.query = query;
-          //路由跳转
+        if (this.$route.params) { 
+          loction.params = this.$route.params; //动态给location配置对象添加params参数
+          loction.query = query;      //动态给location配置对象添加query属性
           this.$router.push(loction);
         }
       }
@@ -292,7 +287,7 @@ export default {
     }
     // 定义动画时间、速率
     .sort-enter-active {
-      transition: all 0.5s linear;
+      transition: all 0.8s linear;
     }
   }
 }

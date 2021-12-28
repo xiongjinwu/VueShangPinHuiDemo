@@ -4,9 +4,7 @@
     <div class="register">
       <h3>
         注册新用户
-        <span class="go"
-          >我有账号，去 <a href="login.html" target="_blank">登陆</a>
-        </span>
+        <span class="go" >我有账号，去 <a href="login.html" target="_blank">登陆</a> </span>
       </h3>
       <div class="content">
         <label>手机号:</label>
@@ -66,11 +64,11 @@
         <span>同意协议并注册《尚品汇用户协议》</span>
         <span class="error-msg">{{ errors.first("agree") }}</span>
       </div>
+     <!-- 完成注册按钮 -->
       <div class="btn">
         <button @click="userRegister">完成注册</button>
       </div>
     </div>
-
     <!-- 底部 -->
     <div class="copyright">
       <ul>
@@ -94,16 +92,11 @@ export default {
   name: "Register",
   data() {
     return {
-      // 收集表单数据--手机号
-      phone: "",
-      //验证码
-      code: "",
-      //密码
-      password: "",
-      //确认密码
-      password1: "",
-      //是否同意
-      agree: true,
+      phone: "",// 收集表单数据--手机号
+      code: "",  //验证码
+      password: "", //密码
+      password1: "", //确认密码
+      agree: true, //是否同意
     };
   },
   methods: {
@@ -120,17 +113,13 @@ export default {
     },
     //用户注册
     async userRegister() {
-      const success = await this.$validator.validateAll();
-      //全部表单验证成功，在向服务器发请求，进行祖册
+      const success = await this.$validator.validateAll(); //全部表单验证成功，在向服务器发请求，进行注册
+      console.log(success)
       //只要有一个表单没有成功，不会发请求
       if (success) {
         try {
           const { phone, code, password, password1 } = this;
-          await this.$store.dispatch("userRegister", {
-            phone,
-            code,
-            password,
-          });
+          await this.$store.dispatch("userRegister", { phone, code, password,});
           //注册成功进行路由的跳转
           this.$router.push("/login");
         } catch (error) {

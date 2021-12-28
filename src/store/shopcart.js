@@ -55,10 +55,7 @@ const actions = {
     //数组
     let promiseAll = [];
     state.cartList[0].cartInfoList.forEach((item) => {
-      let promise = dispatch("updateCheckedById", {
-        skuId: item.skuId,
-        isChecked,
-      });
+      let promise = dispatch("updateCheckedById", { skuId: item.skuId, isChecked});
       promiseAll.push(promise);
     });
     //最终返回结果

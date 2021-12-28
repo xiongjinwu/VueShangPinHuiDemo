@@ -1,7 +1,8 @@
 <template>
   <div>
-    <!-- 商品分类三级列表 -->
+    <!--全局 商品分类三级列表 -->
     <typeNav />
+
     <div class="main">
       <div class="py-container">
         <!--bread:面包屑，带有x的结构的-->
@@ -12,10 +13,9 @@
             </li>
           </ul>
           <ul class="fl sui-tag">
-            <!-- 分类的面包屑 -->
+            <!-- 分类的面包屑 v-if空字符串为false，有名字为true -->
             <li class="with-x" v-if="searchParams.categoryName">
-              {{ searchParams.categoryName
-              }}<i @click="removeCategoryName">×</i>
+              {{ searchParams.categoryName}}<i @click="removeCategoryName">×</i>
             </li>
             <!-- 关键字的面包屑 -->
             <li class="with-x" v-if="searchParams.keyword">
@@ -23,21 +23,18 @@
             </li>
             <!-- 品牌的面包屑 -->
             <li class="with-x" v-if="searchParams.trademark">
-              {{ searchParams.trademark.split(":")[1]
-              }}<i @click="removeTradeMark">×</i>
+              {{ searchParams.trademark.split(":")[1]}}<i @click="removeTradeMark">×</i>
             </li>
-            <!--平台的售卖的属性值展示 -->
-            <li
-              class="with-x"
-              v-for="(attrValue, index) in searchParams.props"
-              :key="index"
-            >
-              {{ attrValue.split(":")[1] }}<i @click="removeAttr(index)">×</i>
+
+            <!--平台的售卖的属性值展示 因为数据是数组了，需要遍历v-for -->
+            <li class="with-x" v-for="(attrValue, index) in searchParams.props" :key="index" >
+              {{ attrValue.split(":")[1] }} <i @click="removeAttr(index)">×</i>
             </li>
           </ul>
         </div>
-        <!--selector-->
+        <!--搜索的子组件 带有自定义事件  selector-->
         <SearchSelector @trademarkInfo="trademarkInfo" @attrInfo="attrInfo" />
+
         <!--details-->
         <div class="details clearfix">
           <div class="sui-navbar">
@@ -70,7 +67,7 @@
             <ul class="yui3-g">
               <li
                 class="yui3-u-1-5"
-                v-for="(good, index) in goodsList"
+                v-for="(good) in goodsList"
                 :key="good.id"
               >
                 <div class="list-wrap">
@@ -139,28 +136,20 @@ export default {
         category1Id: "",
         category2Id: "",
         category3Id: "",
-        //产品的名字
-        categoryName: "",
-        //搜索的关键字
-        keyword: "",
-        //排序:初始状态应该是综合且降序
-        order: "1:desc",
-        //第几页
-        pageNo: 1,
-        //每一页展示条数
-        pageSize: 3,
-        //平台属性的操作
-        props: [],
-        //品牌
-        trademark: "",
+        categoryName: "", //产品的名字
+        keyword: "",     //搜索的关键字
+        order: "1:desc", //排序:初始状态应该是综合且降序
+        pageNo: 1,       //第几页
+        pageSize: 3,     //每一页展示条数
+        props: [],      //平台属性的操作
+        trademark: "",  //品牌
       },
     };
   },
-  components: {
-    SearchSelector,
-  },
+  components: {SearchSelector},
   //在挂载之前调用一次|可以在发请求之前将带有参数进行修改
   beforeMount() {
+    console.log(this.$route.query)
     //在发请求之前，把接口需要传递参数，进行整理（在给服务器发请求之前，把参数整理好，服务器就会返回查询的数据）
     Object.assign(this.searchParams, this.$route.query, this.$route.params);
   },
@@ -169,8 +158,7 @@ export default {
     this.getData();
   },
   methods: {
-    //把发请求的这个action封装到一个函数里面
-    //将来需要再次发请求，你只需要在调用这个函数即可
+    //封装了一个方法发请求，你只需要在调用这个函数即可，带参数
     getData() {
       this.$store.dispatch("getSearchList", this.searchParams);
     },
@@ -184,9 +172,9 @@ export default {
       this.searchParams.category2Id = undefined;
       this.searchParams.category3Id = undefined;
       this.getData();
+
       //地址栏也需要需改：进行路由跳转(现在的路由跳转只是跳转到自己这里)
-      //严谨：本意是删除query，如果路径当中出现params不应该删除，路由跳转的时候应该带着
-      if (this.$route.params) {
+      if (this.$route.params) { //严谨：本意是删除query，并保留params参数
         this.$router.push({ name: "search", params: this.$route.params });
       }
     },
@@ -194,47 +182,43 @@ export default {
     removeKeyword() {
       //给服务器带的参数searchParams的keyword置空
       this.searchParams.keyword = undefined;
-      //再次发请求
       this.getData();
-      //通知兄弟组件Header清除关键字
-      this.$bus.$emit("clear");
-      //进行路由的跳转
-      if (this.$route.query) {
+      
+      this.$bus.$emit("clear");  //通知兄弟组件Header清除关键字
+      
+      if (this.$route.query) { //进行路由的跳转，并保留query参数
         this.$router.push({ name: "search", query: this.$route.query });
       }
     },
-    //自定义事件回调
-    trademarkInfo(trademark) {
-      //1:整理品牌字段的参数  "ID:品牌名称"
-      this.searchParams.trademark = `${trademark.tmId}:${trademark.tmName}`;
-      //再次发请求获取search模块列表数据进行展示
+    
+    trademarkInfo(trademark) {    //自定义事件回调
+      this.searchParams.trademark = `${trademark.tmId}:${trademark.tmName}`; //1:整理品牌字段的参数  看接口文档示例"ID:品牌名称" ，在发请求
       this.getData();
     },
-    //删除品牌的信息
-    removeTradeMark() {
-      //将品牌信息置空
+
+    
+    removeTradeMark() { //删除品牌的信息
+      //将品牌信息置空,再次发请求
       this.searchParams.trademark = undefined;
-      //再次发请求
       this.getData();
     },
-    //收集平台属性地方回调函数（自定义事件）
-    attrInfo(attr, attrValue) {
+
+    
+    attrInfo(attr, attrValue) {  //收集平台属性地方回调函数（自定义事件）
       //["属性ID:属性值:属性名"]
       console.log(attr, attrValue);
-      //参数格式整理好
-      let props = `${attr.attrId}:${attrValue}:${attr.attrName}`;
+      
+      let props = `${attr.attrId}:${attrValue}:${attr.attrName}`; //参考文档格式对参数格式整理好
       //数组去重
       //if语句里面只有一行代码：可以省略大花括号
-      if (this.searchParams.props.indexOf(props) == -1)
-        this.searchParams.props.push(props);
-      //再次发请求
-      this.getData();
-    },
-    //removeAttr删除售卖的属性
-    removeAttr(index) {
+      if (this.searchParams.props.indexOf(props) == -1){
+           this.searchParams.props.push(props);
+        }
+        this.getData();
+    }, 
+    removeAttr(index) { //removeAttr删除售卖的属性
       //再次整理参数
       this.searchParams.props.splice(index, 1);
-      //再次发请求
       this.getData();
     },
     //排序的操作
@@ -286,12 +270,12 @@ export default {
       total: (state) => state.search.searchList.total,
     }),
   },
-  //数据监听：监听组件实例身上的属性的属性值变化
+  //数据监听：监听组件实例身上的$route 属性的属性值变化
   watch: {
     //监听路由的信息是否发生变化，如果发生变化，再次发起请求
     $route(newValue, oldValue) {
       //每一次请求完毕，应该把相应的1、2、3级分类的id置空的，让他接受下一次的相应1、2、3
-      //再次发请求之前整理带给服务器参数
+      //再次发请求之前整理数据 带给服务器参数
       Object.assign(this.searchParams, this.$route.query, this.$route.params);
       //再次发起ajax请求
       this.getData();

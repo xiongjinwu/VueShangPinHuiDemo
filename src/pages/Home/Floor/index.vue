@@ -11,6 +11,7 @@
           </ul>
         </div>
       </div>
+
       <div class="tab-content">
         <div class="tab-pane">
           <div class="floor-1">
@@ -23,7 +24,7 @@
               <img :src="list.imgUrl" />
             </div>
             <div class="floorBanner">
-              <!-- 轮播图的地方 -->
+              <!-- 封装了全局组件 轮播图的地方 -->
                <Carsousel :list="list.carouselList" />
             </div>
             <div class="split">
@@ -35,6 +36,7 @@
                 <img :src="list.recommendList[1]" />
               </div>
             </div>
+
             <div class="split center">
               <img :src="list.bigImg" />
             </div>
@@ -57,10 +59,11 @@
 <script>
 
 export default {
-  name: "",
+  name: "Floor",
   props: ["list"],
-  //组件挂载完毕的地方
+
   mounted() {
+    console.log(222,this.list)
     //第一次书写Swiper的时候：在mounted当中书写是不可以的，但是为什么现在这里可以啦！
     //第一次书写轮播图的时候，是在当前组件内部发请求、动态渲染解构【前台至少服务器数据需要回来】，因此当年的写法在这里不行
     //现在的这种写法为什么可以：因为请求是父组件发的，父组件通过props传递过来的，而且结构都已经有了的情况下执行mounted
@@ -88,7 +91,6 @@ export default {
 
       .fr {
         float: right;
-
         .nav-tabs {
           margin: 10px 0 0;
           display: inline-block;

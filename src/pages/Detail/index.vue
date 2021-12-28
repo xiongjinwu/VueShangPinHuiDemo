@@ -127,7 +127,7 @@
       </div>
     </section>
 
-    <!-- 内容详情页 -->
+    <!-- 内容详情页 写死的数据，服务器无数据接口 -->
     <section class="product-detail">
       <aside class="aside">
         <div class="tabWraped">
@@ -377,29 +377,26 @@ export default {
   name: "Detail",
   data() {
     return {
-      //购买产品的个数
-      skuNum: 1,
+      skuNum: 1,   //购买产品的个数
     };
   },
-  components: {
-    ImageList,
-    Zoom,
-  },
+  components: {ImageList,Zoom},
+
   mounted() {
     //派发action获取产品详情的信息
     this.$store.dispatch("getGoodInfo", this.$route.params.skuid);
   },
   computed: {
     ...mapGetters(["categoryView", "skuInfo", "spuSaleAttrList"]),
-    //给子组件的数据
-    skuImageList() {
+    
+    skuImageList() { //给子组件的数据
       //如果服务器数据没有回来，skuInfo这个对象是空对象
       return this.skuInfo.skuImageList || [];
     },
   },
   methods: {
-    //产品的售卖属性值切换高亮
-    changeActive(saleAttrValue, arr) {
+    
+    changeActive(saleAttrValue, arr) {  //产品的售卖属性值切换高亮
       //遍历全部售卖属性值isChecked为零没有高亮了
       arr.forEach((item) => {
         item.isChecked = 0;
@@ -426,19 +423,16 @@ export default {
       //2:你需要知道这次请求成功还是失败，如果成功进行路由跳转，如果失败，需要给用户提示
       try {
         //成功
-        await this.$store.dispatch("addOrUpdateShopCart", {
-          skuId: this.$route.params.skuid,
-          skuNum: this.skuNum,
-        });
+        await this.$store.dispatch("addOrUpdateShopCart", {skuId: this.$route.params.skuid,skuNum: this.skuNum});
         //3:进行路由跳转
         //4:在路由跳转的时候还需要将产品的信息带给下一级的路由组件
         //一些简单的数据skuNum，通过query形式给路由组件传递过去
         //产品信息的数据【比较复杂:skuInfo】,通过会话存储（不持久化,会话结束数据在消失）
-        //本地存储|会话存储，一般存储的是字符串
+        //本地存储|会话存储，一般存储的是字符串,不能存储对象
         sessionStorage.setItem("SKUINFO",JSON.stringify(this.skuInfo));
         this.$router.push({name:'addcartsuccess',query:{skuNum:this.skuNum}});
-      } catch (error) {
-        //失败
+
+      } catch (error) {  //失败
         alert(error.message);
       }
     },

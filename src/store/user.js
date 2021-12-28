@@ -1,12 +1,8 @@
-import {
-  reqGetCode,
-  reqUserRegister,
-  reqUserLogin,
-  reqUserInfo,
-  reqLogout,
-} from "@/api";
+import {reqGetCode,reqUserRegister,reqUserLogin,reqUserInfo,reqLogout} from "@/api";
+
 import { setToken, getToken,removeToken} from "@/utils/token";
-//登录与注册的模块
+
+//登录与注册的模块,合用一个仓库
 const state = {
   code: "",
   token: getToken(),
@@ -31,6 +27,7 @@ const mutations = {
     removeToken();
   }
 };
+
 const actions = {
   //获取验证码
   async getCode({ commit }, phone) {
@@ -40,7 +37,7 @@ const actions = {
       commit("GETCODE", result.data);
       return "ok";
     } else {
-      return Promise.reject(new Error("faile"));
+      return Promise.reject(new Error("获取验证码失败!"));
     }
   },
   //用户注册
@@ -49,7 +46,7 @@ const actions = {
     if (result.code == 200) {
       return "ok";
     } else {
-      return Promise.reject(new Error("faile"));
+      return Promise.reject(new Error("注册失败!"));
     }
   },
   //登录业务
@@ -60,11 +57,10 @@ const actions = {
     if (result.code == 200) {
       //用户已经登录成功且获取到token
       commit("USERLOGIN", result.data.token);
-      //持久化存储token
-      setToken(result.data.token);
+      setToken(result.data.token); //持久化存储token
       return "ok";
     } else {
-      return Promise.reject(new Error("faile"));
+      return Promise.reject(new Error("登录失败!"));
     }
   },
   //获取用户信息
@@ -74,8 +70,9 @@ const actions = {
       //提交用户信息
       commit("GETUSERINFO", result.data);
       return 'ok';
+      
     }else{
-      return Promise.reject(new Error('faile'));
+      return Promise.reject(new Error('获取用户信息失败!'));
     }
   },
   //退出登录

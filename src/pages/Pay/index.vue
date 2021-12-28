@@ -1,6 +1,6 @@
 <template>
   <div class="pay-main">
-    <el-button type="primary" icon="el-icon-phone">测试</el-button>
+    <!-- <el-button type="primary" icon="el-icon-phone">测试</el-button> -->
     <div class="pay-container">
       <div class="checkout-tit">
         <h4 class="tit-txt">
@@ -127,7 +127,7 @@ export default {
     async open() {
       //生成二维(地址)
       let url = await QRCode.toDataURL(this.payInfo.codeUrl);
-      this.$alert(`<img src=${url} />`, "请你微信支付", {
+      this.$alert(`<img src=${url} />`, "请微信扫码支付", {
         dangerouslyUseHTMLString: true,
         //中间布局
         center: true,
@@ -170,7 +170,7 @@ export default {
         this.timer = setInterval(async () => {
           //发请求获取用户支付状态
           let result = await this.$API.reqPayStatus(this.orderId);
-          //如果code==200
+      
           if (result.code == 200) {
             //第一步：清除定时器
             clearInterval(this.timer);

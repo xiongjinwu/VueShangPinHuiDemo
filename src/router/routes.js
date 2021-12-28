@@ -1,11 +1,6 @@
-/* 
-所有路由配置的数组
-*/
-// import Home from '@/pages/Home'
-// import Search from '@/pages/Search'
-const Search = () => import('@/pages/Search')
 
-import Detail from '@/pages/Detail'
+
+// import Detail from '@/pages/Detail' //做了懒加载
 import AddCartSuccess from '@/pages/AddCartSuccess'
 import ShopCart from '@/pages/ShopCart'
 
@@ -33,28 +28,28 @@ component: () => import('@/pages/Search')
 export default [
   {
     path: '/',
+    name:'home',
     component: () => import('@/pages/Home')
   },
   {
-    name: 'search',  // 是当前路由的标识名称
     path: '/search/:keyword?',
-    component: Search,
+    name: 'search',  
+    component: () => import('@/pages/Search'),
     // 将params参数和query参数映射成属性传入路由组件
     props: route => ({keyword3: route.params.keyword, keyword4: route.query.keyword2})
   },
   {
-    name: 'detail',  // 是当前路由的标识名称
     path: '/detail/:skuId',
-    component: Detail,
+    name: 'detail',  // 是当前路由的标识名称
+    component: ()=>import ('@/pages/Detail'),
   },
   {
     path: '/addcartsuccess',
+    name:'addcartsuccess',
     component: AddCartSuccess,
-
     beforeEnter (to, from, next) {
       // 得到当前路由信息对象
       // const route = router.currentRoute  // route就是from
-
       // 得到要跳转到目路由的query参数
       const skuNum = to.query.skuNum
       // 读取保存的数据
@@ -72,9 +67,8 @@ export default [
     path: '/shopcart',
     component: ShopCart,
   },
-
   {
-    path: '/trade',
+    path: '/trade',  //交易页面路由
     component: Trade,
     /* 只能从购物车界面, 才能跳转到交易界面 */
     beforeEnter (to, from, next) {
@@ -124,12 +118,12 @@ export default [
         component: MyOrder,
       },
       {
-        path: 'groupbuy',
+        path: 'groupbuy',  //团购路由
         component: GroupBuy,
       },
 
       {
-        path: '',
+        path: '/center', //如果是center个人中心路由，默认重定向到我的订单
         redirect: 'myorder'
       }
     ]

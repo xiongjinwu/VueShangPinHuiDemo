@@ -1,6 +1,7 @@
 <template>
   <div class="trade-container">
     <h3 class="title">填写并核对订单信息</h3>
+
     <div class="content">
       <h5 class="receive">收件人信息</h5>
       <div

@@ -1,15 +1,12 @@
 //对于axios进行二次封装
 import axios from "axios";
-import nprogress from "nprogress";
-//在当前模块中引入store
-import store from '@/store';
-//如果出现进度条没有显示：一定是你忘记了引入样式了
-import "nprogress/nprogress.css";
+import nprogress from "nprogress"; //引入发送请求时的进度条
+import store from '@/store'; //在当前模块中引入store
+import "nprogress/nprogress.css"; //如果出现进度条没有显示：一定是你忘记了引入样式了
+
 //底下的代码也是创建axios实例
 let requests = axios.create({
-  //基础路径
   baseURL: "/api",
-  //请求不能超过5S
   timeout: 5000,
 });
 
@@ -25,7 +22,7 @@ requests.interceptors.request.use((config) => {
   if(store.state.user.token){
     config.headers.token = store.state.user.token;
   }
-  nprogress.start();
+  nprogress.start();   //进度条开始
   return config;
 });
 
@@ -41,6 +38,6 @@ requests.interceptors.response.use(
     alert("服务器响应数据失败");
   }
 );
-//最终需要对外暴露（不对外暴露外面模块没办法使用）
+
 //这里的代码是暴露一个axios实例
 export default requests;

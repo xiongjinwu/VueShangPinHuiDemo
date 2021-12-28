@@ -1,16 +1,17 @@
-import { reqGoodsInfo, reqAddOrUpdateShopCart } from "@/api";
+import { reqGoodsInfo, reqAddOrUpdateShopCart } from "@/api"; //引入发请求的函数
 //封装游客身份模块uuid--->生成一个随机字符串（不能在变了）
 import {getUUID} from '@/utils/uuid_token';
+
 const state = {
   goodInfo: {},
-  //游客临时身份
-   uuid_token:getUUID()
+   uuid_token:getUUID() //游客临时身份
 };
 const mutations = {
   GETGOODINFO(state, goodInfo) {
     state.goodInfo = goodInfo;
   },
 };
+
 const actions = {
   //获取产品信息的action
   async getGoodInfo({ commit }, skuId) {
@@ -30,10 +31,11 @@ const actions = {
       return "ok";
     } else {
       //返回的是失败的标记
-      return Promise.reject(new Error("faile"));
+      return Promise.reject(new Error("失败!"));
     }
   },
 };
+
 //简化数据而生
 const getters = {
   //路径导航简化的数据
@@ -42,15 +44,17 @@ const getters = {
     //当前计算出的 categoryView属性值至少是一个空对象，假的报错不会有了。
     return state.goodInfo.categoryView || {};
   },
-  //简化产品信息的数据
+  //产品信息的数据
   skuInfo(state) {
     return state.goodInfo.skuInfo || {};
   },
-  //产品售卖属性的简化
+  //产品售卖属性的数据
   spuSaleAttrList(state) {
     return state.goodInfo.spuSaleAttrList || [];
   },
 };
+
+
 export default {
   state,
   actions,

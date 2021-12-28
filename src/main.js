@@ -4,27 +4,27 @@ import App from "./App.vue";
 import router from "@/router";
 //引入仓库进行注册
 import store from "@/store";
+
 //定义全局组件：在入口文件注册一次之后，在任何组件当中都可以使用
 import typeNav from "@/components/TypeNav";
 import Carsousel from "@/components/Carousel";
 import Pagination from '@/components/Pagination'
 import { Button,MessageBox} from 'element-ui';
-//全局组件：第一个参数 组件名字  第二个参数：那个组件
-Vue.component(typeNav.name, typeNav);
-Vue.component(Carsousel.name, Carsousel);
-Vue.component(Pagination.name,Pagination);
-//注册全局组件
+
+//全局组件：第一个参数 组件名字  第二个参数：哪个组件
+Vue.component('typeNav', typeNav);  //三级联动导航
+Vue.component('Carsousel', Carsousel);//轮播图
+Vue.component(Pagination.name,Pagination);// 分页
 Vue.component(Button.name,Button);
-//ElementUI注册组件的时候，还有一种写法，挂在原型上
+
+//ElementUI注册组件的时候，另一种写法，挂在原型上！！！
 Vue.prototype.$msgbox = MessageBox;
 Vue.prototype.$alert = MessageBox.alert;
-//引入MockServer.js----mock数据
-import "@/mock/mockServe";
-//引入swiper样式
-import "swiper/css/swiper.css";
-//统一接口api文件夹里面全部请求函数
-//统一引入
-import * as API from '@/api';
+
+import "@/mock/mockServe";        //引入MockServer.js----mock模拟数据
+import "swiper/css/swiper.css";  //引入swiper样式,全局可用
+
+import * as API from '@/api';  //统一引入、统一接口api文件夹里面全部请求函数
 import atm from '@/assets/1.gif';
 //引入插件
 import VueLazyload from 'vue-lazyload';
@@ -39,14 +39,13 @@ Vue.use(myPlugins,{
     name:'upper'
 });
 
-//引入表单校验插件
-import "@/plugins/validate";
+import "@/plugins/validate";  //引入表单校验插件
+
 new Vue({
   render: (h) => h(App),
-  //全局事件总线$bus配置
-  beforeCreate() {
+  beforeCreate() { //全局事件总线$bus配置
     Vue.prototype.$bus = this;
-    Vue.prototype.$API = API;
+    Vue.prototype.$API = API;  //将请求API放到vue原型对象
   },
   //需要把router进行注册
   //可以让全部的组件（非路由|路由组件）都可以获取到$route|$router属性

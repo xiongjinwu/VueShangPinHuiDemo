@@ -1,8 +1,7 @@
 //vee-validate插件：表单验证区域’
 import Vue from "vue";
 import VeeValidate from "vee-validate";
-//中文提示信息
-import zh_CN from "vee-validate/dist/locale/zh_CN";
+import zh_CN from "vee-validate/dist/locale/zh_CN";  //中文提示信息
 Vue.use(VeeValidate);
 
 //表单验证
@@ -19,6 +18,7 @@ VeeValidate.Validator.localize("zh_CN", {
     agree:'协议'
   },
 });
+
 
 //自定义校验规则
 VeeValidate.Validator.extend("tongyi", {
